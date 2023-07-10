@@ -1,7 +1,5 @@
 package org.example;
 
-
-
 import org.example.model.Person;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -19,13 +17,15 @@ public class App
         SessionFactory sessionFactory = configuration.buildSessionFactory();
         Session session = sessionFactory.getCurrentSession();
 
-        try {session.beginTransaction();
-
-        Person person = session.get(Person.class, 1);
-        System.out.println(person.getName());
-        System.out.println(person.getAge());
-
-        session.getTransaction().commit();
+        try {
+            session.beginTransaction();
+            Person person1 = new Person("Test1", 30);
+            Person person2 = new Person("Test2", 31);
+            Person person3 = new Person("Test3", 32);
+            session.save(person1);
+            session.save(person2);
+            session.save(person3);
+            session.getTransaction().commit();
         } finally {
             sessionFactory.close();
         }
