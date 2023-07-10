@@ -19,12 +19,8 @@ public class App
 
         try {
             session.beginTransaction();
-            Person person1 = new Person("Test1", 30);
-            Person person2 = new Person("Test2", 31);
-            Person person3 = new Person("Test3", 32);
-            session.save(person1);
-            session.save(person2);
-            session.save(person3);
+            Person person = session.get(Person.class, 2);
+            person.setName("New name");
             session.getTransaction().commit();
         } finally {
             sessionFactory.close();
