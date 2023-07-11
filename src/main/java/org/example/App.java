@@ -25,12 +25,11 @@ public class App
 
         try {
             session.beginTransaction();
-            Person person = new Person("Test1", 30);
-            Item item = new Item("Laptop3", person);
-            person.setItems(new ArrayList<>(Collections.singletonList(item)));
-            // Deprecated method
+            Person person = new Person("Test cascade", 30);
+            person.addItem(new Item("Laptop3"));
+            person.addItem(new Item("Laptop4"));
+            person.addItem(new Item("Laptop5"));
             session.save(person);
-
             session.getTransaction().commit();
         } finally {
             sessionFactory.close();
