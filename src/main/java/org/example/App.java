@@ -25,17 +25,11 @@ public class App
 
         try {
             session.beginTransaction();
-            Person person = session.get(Person.class, 3);
-            // получаем список всех товаров человека
-            List<Item> items = person.getItems();
+            Person person = session.get(Person.class, 2);
             // SQL
-            // проходимся по списку и удаляем все товары человека с id=3
-            for (Item item:items) {
-                session.remove(item);
-            }
-            // Не порождает SQL, но необходимо для того, чтобы в кэше все было верно
-            person.getItems().clear();
-
+            session.remove(person);
+            // Для того, чтобы было правильное состояние Hibernate кэша
+            person.getItems().forEach(i -> i.setOwner(null));
             session.getTransaction().commit();
         } finally {
             sessionFactory.close();
