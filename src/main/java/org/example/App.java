@@ -25,13 +25,12 @@ public class App
 
         try {
             session.beginTransaction();
-            Person person = session.get(Person.class, 4);
-            Item item = session.get(Item.class, 1);
-            // Удаляем item у предыдущего владельца
-            item.getOwner().getItems().remove(item);
-            // Назначаем нового владельца item, владелец  с id=4
-            item.setOwner(person);
-            person.getItems().add(item);
+            Person person = new Person("Test", 30);
+            Item item = new Item("Laptop2", person);
+            person.setItems(new ArrayList<>(Collections.singletonList(item)));
+
+            session.persist(person);
+
             session.getTransaction().commit();
         } finally {
             sessionFactory.close();
