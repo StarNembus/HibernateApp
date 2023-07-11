@@ -6,6 +6,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,9 +25,11 @@ public class App
 
         try {
             session.beginTransaction();
-            Person person = session.get(Person.class, 2);
-            Item newItem = new Item("Item from Hibernate", person);
-            person.getItems().add(newItem);
+            Person person = new Person("John", 32);
+            Item newItem = new Item("Laptop", person);
+            // так как человек создан только что, помещаем его в ArrayList, состоящий из одного товара
+            person.setItems(new ArrayList<>(Collections.singletonList(newItem)));
+            session.save(person);
             session.save(newItem);
             session.getTransaction().commit();
         } finally {
