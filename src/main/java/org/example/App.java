@@ -25,11 +25,11 @@ public class App
 
         try {
             session.beginTransaction();
-            Person person = new Person("Test", 30);
-            Item item = new Item("Laptop2", person);
+            Person person = new Person("Test1", 30);
+            Item item = new Item("Laptop3", person);
             person.setItems(new ArrayList<>(Collections.singletonList(item)));
 
-            session.persist(person);
+            session.save(person);
 
             session.getTransaction().commit();
         } finally {
