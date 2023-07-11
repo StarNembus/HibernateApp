@@ -28,7 +28,7 @@ public class App
             Person person = new Person("Test1", 30);
             Item item = new Item("Laptop3", person);
             person.setItems(new ArrayList<>(Collections.singletonList(item)));
-
+            // Deprecated method
             session.save(person);
 
             session.getTransaction().commit();

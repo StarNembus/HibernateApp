@@ -17,6 +17,7 @@ public class Person {
     @Column(name = "age")
     private int age;
     @OneToMany(mappedBy = "owner")
+    // Deprecated
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private List<Item> items;
 
