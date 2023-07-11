@@ -6,6 +6,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,10 +25,11 @@ public class App
 
         try {
             session.beginTransaction();
-            Item item = session.get(Item.class, 5);
-            System.out.println(item);
-            Person person = item.getOwner();
-            System.out.println(person);
+            Person person = new Person("Test cascade", 30);
+            person.addItem(new Item("Laptop3"));
+            person.addItem(new Item("Laptop4"));
+            person.addItem(new Item("Laptop5"));
+            session.save(person);
             session.getTransaction().commit();
         } finally {
             sessionFactory.close();
