@@ -25,11 +25,13 @@ public class App
 
         try {
             session.beginTransaction();
-            Person person = session.get(Person.class, 2);
-            // SQL
-            session.remove(person);
-            // Для того, чтобы было правильное состояние Hibernate кэша
-            person.getItems().forEach(i -> i.setOwner(null));
+            Person person = session.get(Person.class, 4);
+            Item item = session.get(Item.class, 1);
+            // Удаляем item у предыдущего владельца
+            item.getOwner().getItems().remove(item);
+            // Назначаем нового владельца item, владелец  с id=4
+            item.setOwner(person);
+            person.getItems().add(item);
             session.getTransaction().commit();
         } finally {
             sessionFactory.close();
