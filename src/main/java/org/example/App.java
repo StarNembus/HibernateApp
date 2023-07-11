@@ -25,12 +25,17 @@ public class App
 
         try {
             session.beginTransaction();
-            Person person = new Person("John", 32);
-            Item newItem = new Item("Laptop", person);
-            // так как человек создан только что, помещаем его в ArrayList, состоящий из одного товара
-            person.setItems(new ArrayList<>(Collections.singletonList(newItem)));
-            session.save(person);
-            session.save(newItem);
+            Person person = session.get(Person.class, 3);
+            // получаем список всех товаров человека
+            List<Item> items = person.getItems();
+            // SQL
+            // проходимся по списку и удаляем все товары человека с id=3
+            for (Item item:items) {
+                session.remove(item);
+            }
+            // Не порождает SQL, но необходимо для того, чтобы в кэше все было верно
+            person.getItems().clear();
+
             session.getTransaction().commit();
         } finally {
             sessionFactory.close();
