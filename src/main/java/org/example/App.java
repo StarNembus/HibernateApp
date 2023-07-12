@@ -21,12 +21,8 @@ public class App
 
         try {
             session.beginTransaction();
-            Person person = new Person("TestPerson", 30);
-            Passport passport = new Passport(123456);
-
-            person.setPassport(passport);
-            session.save(person);
-
+            Person person= session.get(Person.class, 1);
+            session.remove(person);
             session.getTransaction().commit();
         } finally {
             sessionFactory.close();
