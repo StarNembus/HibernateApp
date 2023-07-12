@@ -1,7 +1,7 @@
 package org.example;
 
-import org.example.model.Item;
-import org.example.model.Person;
+import org.example.model.Actor;
+import org.example.model.Movie;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -18,21 +18,23 @@ public class App
 {
     public static void main( String[] args )
     {
-        Configuration configuration = new Configuration().addAnnotatedClass(Person.class)
-                .addAnnotatedClass(Item.class);
+        Configuration configuration = new Configuration().addAnnotatedClass(Actor.class)
+                .addAnnotatedClass(Movie.class);
         SessionFactory sessionFactory = configuration.buildSessionFactory();
-        Session session = sessionFactory.getCurrentSession();
 
-        try {
+        // try with resources (try с ресурсами) - ресурс будет закрыт не используя блок finally
+        try (sessionFactory){
+            Session session = sessionFactory.getCurrentSession();
             session.beginTransaction();
-            Person person = new Person("Test cascade", 30);
-            person.addItem(new Item("Laptop3"));
-            person.addItem(new Item("Laptop4"));
-            person.addItem(new Item("Laptop5"));
-            session.save(person);
+
+            Actor actor = session.get(Actor.class, 2);
+            System.out.println(actor.getMovies());
+            Movie movieToRemovie = actor.getMovies().get(0);
+
+            actor.getMovies().remove(0);
+            movieToRemovie.getActors().remove(actor);
+
             session.getTransaction().commit();
-        } finally {
-            sessionFactory.close();
         }
     }
 }
