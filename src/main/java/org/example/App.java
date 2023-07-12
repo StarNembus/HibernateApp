@@ -26,10 +26,12 @@ public class App
         try (sessionFactory){
             Session session = sessionFactory.getCurrentSession();
             session.beginTransaction();
-
+            Movie movie = new Movie("Reservoir Dogs", 1992);
             Actor actor = session.get(Actor.class, 1);
-            System.out.println(actor.getMovies());
 
+            movie.setActors(new ArrayList<>(Collections.singletonList(actor)));
+            actor.getMovies().add(movie);
+            session.save(movie);
             session.getTransaction().commit();
         }
     }
