@@ -26,17 +26,9 @@ public class App
         try (sessionFactory){
             Session session = sessionFactory.getCurrentSession();
             session.beginTransaction();
-            Movie movie = new Movie("Pulp fiction", 1994);
-            Actor actor1 = new Actor("Harwey Keitel", 81);
-            Actor actor2 = new Actor("Samuel L.Jackson", 72);
 
-            movie.setActors(new ArrayList<>(List.of(actor1, actor2)));
-            actor1.setMovies(new ArrayList<>(Collections.singletonList(movie)));
-            actor2.setMovies(new ArrayList<>(Collections.singletonList(movie)));
-
-            session.save(movie);
-            session.save(actor1);
-            session.save(actor2);
+            Actor actor = session.get(Actor.class, 1);
+            System.out.println(actor.getMovies());
 
             session.getTransaction().commit();
         }
